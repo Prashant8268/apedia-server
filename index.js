@@ -1,27 +1,26 @@
-const express = require('express');
-const mongoose  = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
 const app = express();
 const port = 4000;
-const cors = require('cors');
-const path = require('path');
+const cors = require("cors");
+const path = require("path");
+const cookieParser = require("cookie-parser");
 
-require('dotenv').config();
+require("dotenv").config();
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
-mongoose.connect(process.env.MONGO_URL,)
+mongoose
+  .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
   })
-  .catch(err => console.error('Error connecting to MongoDB:', err));
-  
+  .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-  app.use('/uploads',express.static(__dirname+'/uploads'));
-
-
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // // Define a route
-app.use('/',require('./routes'));
-
+app.use("/", require("./routes"));
 
 // Start the server
 app.listen(port, () => {
