@@ -5,6 +5,8 @@ const port = 4000;
 const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 require("dotenv").config();
 app.use(express.json());
@@ -20,9 +22,13 @@ mongoose
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // // Define a route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/", require("./routes"));
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+  console.log(
+    `Swagger docs are available at http://localhost:${port}/api-docs`
+  );
 });
